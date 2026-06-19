@@ -18,7 +18,7 @@ elif page == "Permutations":
     # ... (Your existing permutations code stays exactly the same) ...
     pass
 
-elif page == "Calculator":
+elif page == "Modular Exponentiation":
     st.title("RSA Cryptography Toolkit")
     
     st.subheader("Modular Exponentiation")
