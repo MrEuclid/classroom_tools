@@ -24,7 +24,7 @@ elif page == "Permutations":
     if show_code:
         st.subheader("Code for this utility:")
         # You can read the file directly
-        with open("utilities/perms.py", "r") as f:
+        with open("utilities/combsTSP.py", "r") as f:
             st.code(f.read(), language='python')
 
 elif page == "Calculator":
