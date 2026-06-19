@@ -1,6 +1,6 @@
 import itertools
 
-letters = ['A', 'B', 'C']
-perms = [''.join(p) for p in itertools.permutations(letters)]
-
-print(perms)
+def get_permutations(text):
+    # Generates all possible permutations of the full input string
+    perm_list = [''.join(p) for p in itertools.permutations(text)]
+    return perm_list
