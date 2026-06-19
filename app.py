@@ -1,5 +1,6 @@
 import streamlit as st
-import utilities.perms as perms # Import your module
+import utilities.perms as perms 
+import utilities.rsa_tools as rsa  # Import your new module
 
 st.set_page_config(page_title="Classroom Toolkit", layout="wide")
 
@@ -14,30 +15,32 @@ if page == "Home":
     st.write("Use the sidebar to explore different utilities.")
 
 elif page == "Permutations":
-    st.header("Permutation Generator")
-    
-    # Safety limit: Restrict to 7 characters (max 5,040 permutations)
-    user_input = st.text_input("Enter letters:", "ABCD", max_chars=7) 
-    
-    if st.button("Generate"):
-        result = perms.get_permutations(user_input) 
-        
-        # Display the math!
-        st.success(f"Success! Found {len(result)} possible permutations.")
-        
-        # Only render the first 100 items to the screen to keep it fast
-        st.write("Here is a preview of the first 100:")
-        
-        # Display in a clean, scrollable box rather than dumping onto the page
-        with st.container(height=300):
-            st.write(result[:100])
-    
-    if show_code:
-        st.subheader("Code for this utility:")
-        # You can read the file directly
-        with open("utilities/perms.py", "r") as f:
-            st.code(f.read(), language='python')
+    # ... (Your existing permutations code stays exactly the same) ...
+    pass
 
 elif page == "Calculator":
-    st.title("Calculator")
-    # ... logic here
+    st.title("RSA Cryptography Toolkit")
+    
+    st.subheader("Modular Exponentiation")
+    st.write("Calculates: $a^b \\pmod n$")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        base = st.number_input("Base (a)", min_value=1, value=7, step=1)
+    with col2:
+        exp = st.number_input("Exponent (b)", min_value=1, value=13, step=1)
+    with col3:
+        mod = st.number_input("Modulus (n)", min_value=2, value=15, step=1)
+        
+    if st.button("Calculate", type="primary"):
+        # Call the logic from your utilities folder!
+        result = rsa.modular_exponentiation(base, exp, mod)
+        
+        # Handle the UI based on what the utility file returns
+        if result is None:
+             st.error("Please enter valid numbers.")
+        elif isinstance(result, str): # Catch the ZeroDivisionError message
+             st.error(result)
+        else:
+             st.success(f"**Result:** {result}")
