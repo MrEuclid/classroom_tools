@@ -1,8 +1,6 @@
 import itertools
 
-letters = ['A', 'B', 'C', 'D']
+letters = ['A', 'B', 'C']
+perms = [''.join(p) for p in itertools.permutations(letters)]
 
-for r in range(1, len(letters) + 1):
-    combs = [''.join(p) for p in itertools.combinations(letters, r)]
-    print(f"Groups of {r}: {combs}")
-
+print(perms)
