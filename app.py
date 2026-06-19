@@ -1,6 +1,6 @@
 import streamlit as st
-import utilities.perms as perms 
-import utilities.rsa_tools as rsa  # Import your new module
+import utilities.TSP.perms as perms 
+import utilities.RSA.rsa_tools as rsa
 
 st.set_page_config(page_title="Classroom Toolkit", layout="wide")
 
