@@ -19,19 +19,21 @@ if category == "Home":
     st.write("Use the sidebar to select a category, then choose a specific tool to begin.")
 
 elif category == "TSP Tools":
-    # Second Dropdown: Appears only when TSP is selected
-    tool = st.sidebar.selectbox("Select a TSP Tool:", ["Permutation Generator"])
+    # Updated the tool name to be more relevant
+    tool = st.sidebar.selectbox("Select a TSP Tool:", ["Flight Router"]) 
     
-    if tool == "Permutation Generator":
-        st.header("Permutation Generator")
-        user_input = st.text_input("Enter letters:", "ABCD", max_chars=7) 
+    if tool == "Flight Router":
+        st.header("Flight Routing Permutations")
         
-        if st.button("Generate"):
+        # Increased max_chars to 40 (allows for about 7-8 airport codes safely)
+        # Updated the placeholder text to guide the students
+        user_input = st.text_input("Enter IATA codes (comma separated):", "PNH, BKK, SIN", max_chars=40) 
+        
+        if st.button("Generate Routes"):
             result = perms.get_permutations(user_input) 
-            st.success(f"Success! Found {len(result)} possible permutations.")
+            st.success(f"Success! Found {len(result)} possible routes.")
             with st.container(height=300):
                 st.write(result[:100])
-
 elif category == "Maths Functions":
     # Second Dropdown: Appears only when Maths is selected
     tool = st.sidebar.selectbox("Select a Maths Tool:", ["RSA Modular Exponentiation"])
