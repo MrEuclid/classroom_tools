@@ -72,7 +72,7 @@ elif category == "Maths Functions":
         with col1:
             base = st.number_input("Base (a)", min_value=1, value=7, step=1)
         with col2:
-            exp = st.number_input("Exponent (b)", min_value=1, value=13, step=1)
+            exp = st.number_input("Exponent (b)", min_value=-1, value=13, step=1)
         with col3:
             mod = st.number_input("Modulus (n)", min_value=2, value=15, step=1)
             
