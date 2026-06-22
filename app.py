@@ -39,10 +39,11 @@ elif category == "TSP Tools":
 elif category == "Maths Functions":
     tool = st.sidebar.selectbox("Select a Maths Tool:", [
         "Text-to-Number Encoder", 
-        "Prime Number Finder", 
+        "Prime Number Finder",
+        "Private Key Generator",  # <-- Added this line
         "RSA Modular Exponentiation"
     ])
-    
+
     if tool == "Text-to-Number Encoder":
         st.header("Text Encoder")
         word = st.text_input("Enter a single word:")
@@ -63,6 +64,44 @@ elif category == "Maths Functions":
         if st.button("Generate Random Prime (10k - 50k)"):
             st.success(f"**Found Prime:** {prime_tools.generate_random_prime()}")
 
+    elif tool == "Private Key Generator":
+        st.header("Private Key Generator")
+        st.write("Calculate your RSA private key (d) given the public key (e) and phi(n).")
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            e = st.number_input("Public Key (e)", min_value=1, value=13, step=1)
+        with col2:
+            phi_n = st.number_input("Phi of N (φ(n))", min_value=1, value=20, step=1)
+
+        if st.button("Calculate Private Key", type="primary"):
+            result = rsa.calculate_private_key(e, phi_n)
+
+            if result is None:
+                st.error("Please enter valid numbers.")
+            elif isinstance(result, str):
+                st.error(result)
+            else:
+                st.success(f"**Private Key (d):** {result}")
+        elif tool == "Private Key Generator":
+        st.header("Private Key ($d$) Calculator")
+        st.write("Solves the equation: $(d \\times e) \\pmod{\\phi(n)} = 1$")
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            e_val = st.number_input("Public Key (e)", min_value=3, value=65537, step=2)
+        with col2:
+            phi_val = st.number_input("Euler's Totient (phi(n))", min_value=2, value=100, step=1)
+            
+        if st.button("Generate Private Key", type="primary"):
+            result = rsa.calculate_private_key(e_val, phi_val)
+            
+            if result is None:
+                 st.error("Please enter valid numbers.")
+            elif isinstance(result, str): 
+                 st.error(result) # Catches the common factor error
+            else:
+                 st.success(f"**Your Private Key ($d$) is:**\n\n{result}")
     # --- YOUR RESTORED CODE GOES HERE ---
     elif tool == "RSA Modular Exponentiation":
         st.header("RSA Cryptography Toolkit")
