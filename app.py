@@ -33,14 +33,15 @@ elif category == "TSP Tools":
         
         if st.button("Generate Routes"):
             result = perms.get_permutations(user_input) 
-            st.success(f"Success! Found {len(result)} possible routes.")
+            st.success(f"Solved! Found {len(result)} possible routes.")
             with st.container(height=300):
                 st.write(result[:100])
+
 elif category == "Maths Functions":
     tool = st.sidebar.selectbox("Select a Maths Tool:", [
         "Text-to-Number Encoder", 
         "Prime Number Finder",
-        "Private Key Generator",  # <-- Added this line
+        "Private Key Generator",
         "RSA Modular Exponentiation"
     ])
 
@@ -65,25 +66,6 @@ elif category == "Maths Functions":
             st.success(f"**Found Prime:** {prime_tools.generate_random_prime()}")
 
     elif tool == "Private Key Generator":
-        st.header("Private Key Generator")
-        st.write("Calculate your RSA private key (d) given the public key (e) and phi(n).")
-        
-        col1, col2 = st.columns(2)
-        with col1:
-            e = st.number_input("Public Key (e)", min_value=1, value=13, step=1)
-        with col2:
-            phi_n = st.number_input("Phi of N (φ(n))", min_value=1, value=20, step=1)
-
-        if st.button("Calculate Private Key", type="primary"):
-            result = rsa.calculate_private_key(e, phi_n)
-
-            if result is None:
-                st.error("Please enter valid numbers.")
-            elif isinstance(result, str):
-                st.error(result)
-            else:
-                st.success(f"**Private Key (d):** {result}")
-        elif tool == "Private Key Generator":
         st.header("Private Key ($d$) Calculator")
         st.write("Solves the equation: $(d \\times e) \\pmod{\\phi(n)} = 1$")
         
@@ -102,7 +84,7 @@ elif category == "Maths Functions":
                  st.error(result) # Catches the common factor error
             else:
                  st.success(f"**Your Private Key ($d$) is:**\n\n{result}")
-    # --- YOUR RESTORED CODE GOES HERE ---
+
     elif tool == "RSA Modular Exponentiation":
         st.header("RSA Cryptography Toolkit")
         st.write("Calculates: $a^b \\pmod n$")
