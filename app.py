@@ -83,8 +83,8 @@ elif category == "Maths Functions":
         st.write("Find a prime number ($p$ or $q$) of a specific length to build your RSA keys.")
         
         # Add the interactive UI constraints
-        requested_digits = st.number_input("Enter the number of digits (2-20):", min_value=2, max_value=20, value=3)
-        
+# Add the interactive UI constraints (notice step=1 at the end)
+        requested_digits = st.number_input("Enter the number of digits (2-20):", min_value=2, max_value=20, value=3, step=1)        
         if st.button("Generate Random Prime", type="primary"):
             result = prime_tools.generate_random_prime(requested_digits)
             st.success(f"**Found {requested_digits}-digit Prime:**\n\n{result}\n\nWell done!")
