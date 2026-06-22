@@ -31,16 +31,21 @@ def is_prime_miller_rabin(n, k=5):
             return False
     return True
 
-def generate_random_prime(min_digits=5, max_digits=20):
+def generate_random_prime(digits=2):
     """
-    Finds a massive random prime number instantly.
-    We now ask for the number of digits instead of value ranges!
+    Finds a random prime number with an exact number of digits.
+    Restricted to a minimum of 2 digits and a maximum of 20 digits.
     """
-    min_val = 10**(min_digits - 1)
-    max_val = (10**max_digits) - 1
+    # Enforce the allowed constraints (clamp between 2 and 20)
+    digits = max(2, min(20, digits))
+    
+    # Calculate exact bounds for the requested number of digits
+    # Example for 3 digits: min_val = 100, max_val = 999
+    min_val = 10**(digits - 1)
+    max_val = (10**digits) - 1
     
     while True:
-        # Pick a massive random odd number
+        # Pick a random odd number within the exact digit bounds
         candidate = random.randint(min_val, max_val)
         if candidate % 2 == 0:
             candidate += 1
