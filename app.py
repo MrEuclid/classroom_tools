@@ -3,6 +3,7 @@ import utilities.TSP.perms as perms
 import utilities.RSA.rsa_tools as rsa
 import utilities.RSA.text_tools as text_tools
 import utilities.RSA.prime_tools as prime_tools
+import utilities.RSA.decoding as decoding
 
 st.set_page_config(page_title="Classroom Toolkit", layout="wide")
 
@@ -40,6 +41,7 @@ elif category == "TSP Tools":
 elif category == "Maths Functions":
     tool = st.sidebar.selectbox("Select a Maths Tool:", [
         "Text-to-Number Encoder", 
+        "Number-to-Text Decoder", # <-- ADD THIS LINE
         "Prime Number Finder",
         "Private Key Generator",
         "RSA Modular Exponentiation"
@@ -57,7 +59,25 @@ elif category == "Maths Functions":
             
             st.success(f"**Integer Value ($m$):** {result}")
             st.info(f"Remember: Your RSA Modulus ($n$) MUST be larger than {result}!")
-
+    elif tool == "Number-to-Text Decoder":
+        st.header("Number-to-Text Decoder")
+        st.write("Convert a decrypted integer back into a readable message.")
+        
+        # Accept as text to prevent UI precision limits on massive numbers
+        decrypted_input = st.text_input("Enter the decrypted number ($m$):")
+        
+        if st.button("Decode Message", type="primary"):
+            if decrypted_input.strip().isdigit():
+                big_int = int(decrypted_input.strip())
+                result = decoding.decode_rsa_number(big_int)
+                
+                if "[Error" in result:
+                    st.error(result)
+                else:
+                    st.success(f"**Decoded Message:** {result} \n\n Well done! Solved!")
+            else:
+                st.warning("Please enter a valid, positive whole number.")
+                
     elif tool == "Prime Number Finder":
         st.header("Prime Generator")
         st.write("Find a prime number ($p$ or $q$) large enough for your message.")
