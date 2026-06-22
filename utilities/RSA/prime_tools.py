@@ -1,39 +1,50 @@
 # utilities/RSA/prime_tools.py
 import random
-import math
 
-def is_prime(n):
+def is_prime_miller_rabin(n, k=5):
     """
-    Checks if a number is prime using trial division.
-    Perfectly fast for numbers up to a few million.
+    Uses the Miller-Rabin primality test.
+    It is practically instantaneous for numbers with hundreds of digits.
     """
-    if n <= 1:
-        return False
-    if n <= 3:
+    if n == 2 or n == 3:
         return True
-    
-    # Eliminate even numbers and multiples of 3 instantly
-    if n % 2 == 0 or n % 3 == 0:
+    if n <= 1 or n % 2 == 0:
         return False
-    
-    # Check odd numbers up to the square root of n
-    limit = int(math.sqrt(n))
-    for i in range(5, limit + 1, 6):
-        if n % i == 0 or n % (i + 2) == 0:
+
+    # Find r and d such that n - 1 = 2^r * d
+    r, d = 0, n - 1
+    while d % 2 == 0:
+        r += 1
+        d //= 2
+
+    # Witness loop (runs k times for accuracy)
+    for _ in range(k):
+        a = random.randrange(2, n - 1)
+        x = pow(a, d, n)
+        if x == 1 or x == n - 1:
+            continue
+        for _ in range(r - 1):
+            x = pow(x, 2, n)
+            if x == n - 1:
+                break
+        else:
             return False
-            
     return True
 
-def generate_random_prime(min_val=10000, max_val=50000):
+def generate_random_prime(min_digits=5, max_digits=20):
     """
-    Finds a random prime number within a specific range.
+    Finds a massive random prime number instantly.
+    We now ask for the number of digits instead of value ranges!
     """
+    min_val = 10**(min_digits - 1)
+    max_val = (10**max_digits) - 1
+    
     while True:
-        # Pick a random odd number
+        # Pick a massive random odd number
         candidate = random.randint(min_val, max_val)
         if candidate % 2 == 0:
             candidate += 1
             
-        # Check if it's prime. If it is, return it. If not, the loop repeats.
-        if is_prime(candidate):
+        # Test it using Miller-Rabin
+        if is_prime_miller_rabin(candidate):
             return candidate
