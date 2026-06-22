@@ -77,14 +77,17 @@ elif category == "Maths Functions":
                     st.success(f"**Decoded Message:** {result} \n\n Well done! Solved!")
             else:
                 st.warning("Please enter a valid, positive whole number.")
-                
+
     elif tool == "Prime Number Finder":
         st.header("Prime Generator")
-        st.write("Find a prime number ($p$ or $q$) large enough for your message.")
+        st.write("Find a prime number ($p$ or $q$) of a specific length to build your RSA keys.")
         
-        if st.button("Generate Random Prime (10k - 50k)"):
-            st.success(f"**Found Prime:** {prime_tools.generate_random_prime()}")
-
+        # Add the interactive UI constraints
+        requested_digits = st.number_input("Enter the number of digits (2-20):", min_value=2, max_value=20, value=3)
+        
+        if st.button("Generate Random Prime", type="primary"):
+            result = prime_tools.generate_random_prime(requested_digits)
+            st.success(f"**Found {requested_digits}-digit Prime:**\n\n{result}\n\nWell done!")
     elif tool == "Private Key Generator":
         st.header("Private Key ($d$) Calculator")
         st.write("Solves the equation: $(d \\times e) \\pmod{\\phi(n)} = 1$")
