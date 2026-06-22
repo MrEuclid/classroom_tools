@@ -44,7 +44,7 @@ elif category == "Maths Functions":
         "Number-to-Text Decoder", # <-- ADD THIS LINE
         "Prime Number Finder",
         "Private Key Generator",
-        "RSA Modular Exponentiation"
+        "RSA Modular Exponentiation",
         "RSA Modulus Cracker"
     ])
 
