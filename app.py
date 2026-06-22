@@ -45,6 +45,7 @@ elif category == "Maths Functions":
         "Prime Number Finder",
         "Private Key Generator",
         "RSA Modular Exponentiation"
+        "RSA Modulus Cracker"
     ])
 
     if tool == "Text-to-Number Encoder":
@@ -129,3 +130,25 @@ elif category == "Maths Functions":
                  st.error(result)
             else:
                  st.success(f"**Result:** {result}")
+
+    elif tool == "RSA Modulus Cracker":
+        st.header("RSA Modulus Cracker")
+        st.write("Factor a semi-prime modulus ($n$) back into its original primes ($p$ and $q$).")
+        st.write("This demonstrates why modern RSA requires keys that are 600+ digits long!")
+        
+        # Pre-filled with your mystery number!
+        n_input = st.text_input("Enter the Modulus (n):", "60987623363990694377")
+        
+        if st.button("Crack Modulus", type="primary"):
+            if n_input.strip().isdigit():
+                n_val = int(n_input.strip())
+                
+                with st.spinner(f"Attempting to factor {n_val}..."):
+                    p, q = prime_tools.crack_rsa_modulus(n_val)
+                
+                if p and q:
+                    st.success(f"**Cracked in milliseconds!**\n\n**Factor 1 (p):** {p}\n\n**Factor 2 (q):** {q}")
+                else:
+                    st.error("Failed to factor. The number might be prime, or it's too large for a quick script.")
+            else:
+                st.warning("Please enter a valid number.")
