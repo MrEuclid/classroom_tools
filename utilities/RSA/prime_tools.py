@@ -54,36 +54,41 @@ def generate_random_prime(digits=3):
             return candidate
 
 import math
+import random
 
 def crack_rsa_modulus(n):
     """
     Uses Pollard's rho algorithm to rapidly factor a semi-prime n.
-    Returns a tuple (p, q) if successful, or (None, None) if it fails.
+    Includes a randomized polynomial to prevent infinite loops on specific composites like 703.
     """
     if n % 2 == 0:
         return 2, n // 2
     
-    # The pseudo-random polynomial function used to "jump" around
-    def f(x):
-        return (x**2 + 1) % n
+    # Run the algorithm, changing the 'c' offset if it fails
+    for attempt in range(5): 
+        # Pick a random constant for the polynomial to avoid fixed-point traps
+        c = random.randint(1, n - 1)
         
-    x = 2
-    y = 2
-    d = 1
-    
-    # Safety limit to prevent infinite loops on true primes
-    max_steps = 2000000 
-    steps = 0
-    
-    while d == 1 and steps < max_steps:
-        x = f(x)           # Tortoise moves 1 step
-        y = f(f(y))        # Hare moves 2 steps
+        def f(x):
+            return (x**2 + c) % n
+            
+        x = 2
+        y = 2
+        d = 1
         
-        # Check if they have met at a factor
-        d = math.gcd(abs(x - y), n)
-        steps += 1
+        max_steps = 2000000 
+        steps = 0
         
-    if d == n or d == 1:
-        return None, None # Factoring failed, or the number is prime
-        
-    return d, n // d
+        while d == 1 and steps < max_steps:
+            x = f(x)           # Tortoise moves 1 step
+            y = f(f(y))        # Hare moves 2 steps
+            
+            d = math.gcd(abs(x - y), n)
+            steps += 1
+            
+        # Solved! We found a prime factor.
+        if d != n and d != 1:
+            return d, n // d 
+            
+    # If it fails after 5 random attempts, it is highly likely prime
+    return None, None
