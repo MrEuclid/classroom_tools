@@ -22,14 +22,10 @@ if category == "Home":
     st.write("Use the sidebar to select a category, then choose a specific tool to begin.")
 
 elif category == "TSP Tools":
-    # Updated the tool name to be more relevant
     tool = st.sidebar.selectbox("Select a TSP Tool:", ["Flight Router"]) 
     
     if tool == "Flight Router":
         st.header("Flight Routing Permutations")
-        
-        # Increased max_chars to 40 (allows for about 7-8 airport codes safely)
-        # Updated the placeholder text to guide the students
         user_input = st.text_input("Enter IATA codes (comma separated):", "PNH, BKK, SIN", max_chars=40) 
         
         if st.button("Generate Routes"):
@@ -41,30 +37,62 @@ elif category == "TSP Tools":
 elif category == "Maths Functions":
     tool = st.sidebar.selectbox("Select a Maths Tool:", [
         "Text-to-Number Encoder", 
-        "Number-to-Text Decoder", # <-- ADD THIS LINE
+        "Number-to-Text Decoder",
         "Prime Number Finder",
         "Private Key Generator",
         "RSA Modular Exponentiation",
         "RSA Modulus Cracker"
     ])
 
+    # --- COLAB EXPORT PANEL (SIDEBAR) ---
+    st.sidebar.markdown("---")
+    st.sidebar.subheader("📋 Colab Export Panel")
+    st.sidebar.write("Paste your generated values here to auto-build your Colab script.")
+    
+    # Interactive inputs acting as the new scratchpad
+    colab_p = st.sidebar.text_input("p (Prime 1):", "")
+    colab_q = st.sidebar.text_input("q (Prime 2):", "")
+    colab_e = st.sidebar.text_input("e (Public Key):", "65537")
+    colab_c = st.sidebar.text_input("Ciphertext (c):", "")
+    
+    # Auto-calculate n for the Colab payload if p and q are valid numbers
+    n_val = "None"
+    if colab_p.isdigit() and colab_q.isdigit():
+        n_val = str(int(colab_p) * int(colab_q))
+        
+    # Construct the live-updating multi-line Python script snippet
+    colab_payload = f"""# Pasted from Streamlit RSA Tools
+p = {colab_p if colab_p else 'None'}
+q = {colab_q if colab_q else 'None'}
+n = {n_val}
+e = {colab_e if colab_e else 'None'}
+ciphertext = {colab_c if colab_c else 'None'}
+
+print("✅ Variables successfully loaded into Colab! Solved!")
+if n is not None:
+    print(f"Modulus n bits: {{n.bit_length()}}")
+"""
+    # Render the code block
+    st.sidebar.code(colab_payload, language="python")
+    st.sidebar.markdown("---")
+
+    # --- MAIN MATHS TOOLS ---
     if tool == "Text-to-Number Encoder":
         st.header("Text Encoder")
         word = st.text_input("Enter a single word:")
         encoding = st.radio("Select Encoding:", ["ascii (English)", "utf-8 (Khmer)"])
         
         if st.button("Encode"):
-            # Strip the label to just pass 'ascii' or 'utf-8' to your function
             enc = encoding.split(" ")[0] 
             result = text_tools.text_to_number(word, encoding=enc)
             
             st.success(f"**Integer Value ($m$):** {result}")
             st.info(f"Remember: Your RSA Modulus ($n$) MUST be larger than {result}!")
+            
     elif tool == "Number-to-Text Decoder":
         st.header("Number-to-Text Decoder")
         st.write("Convert a decrypted integer back into a readable message.")
         
-        # Accept as text to prevent UI precision limits on massive numbers
         decrypted_input = st.text_input("Enter the decrypted number ($m$):")
         
         if st.button("Decode Message", type="primary"):
@@ -83,12 +111,11 @@ elif category == "Maths Functions":
         st.header("Prime Generator")
         st.write("Find a prime number ($p$ or $q$) of a specific length to build your RSA keys.")
         
-        # Add the interactive UI constraints
-# Add the interactive UI constraints (notice step=1 at the end)
         requested_digits = st.number_input("Enter the number of digits (2-20):", min_value=2, max_value=20, value=3, step=1)        
         if st.button("Generate Random Prime", type="primary"):
             result = prime_tools.generate_random_prime(requested_digits)
             st.success(f"**Found {requested_digits}-digit Prime:**\n\n{result}\n\nWell done!")
+            
     elif tool == "Private Key Generator":
         st.header("Private Key ($d$) Calculator")
         st.write("Solves the equation: $(d \\times e) \\pmod{\\phi(n)} = 1$")
@@ -105,7 +132,7 @@ elif category == "Maths Functions":
             if result is None:
                  st.error("Please enter valid numbers.")
             elif isinstance(result, str): 
-                 st.error(result) # Catches the common factor error
+                 st.error(result) 
             else:
                  st.success(f"**Your Private Key ($d$) is:**\n\n{result}")
 
@@ -136,7 +163,6 @@ elif category == "Maths Functions":
         st.write("Factor a semi-prime modulus ($n$) back into its original primes ($p$ and $q$).")
         st.write("This demonstrates why modern RSA requires keys that are 600+ digits long!")
         
-        # Pre-filled with your mystery number!
         n_input = st.text_input("Enter the Modulus (n):", "60987623363990694377")
         
         if st.button("Crack Modulus", type="primary"):
@@ -147,7 +173,7 @@ elif category == "Maths Functions":
                     p, q = prime_tools.crack_rsa_modulus(n_val)
                 
                 if p and q:
-                    st.success(f"**Cracked in milliseconds!**\n\n**Factor 1 (p):** {p}\n\n**Factor 2 (q):** {q}")
+                    st.success(f"**Cracked in milliseconds!**\n\n**Factor 1 (p):** {p}\n\n**Factor 2 (q):** {q}\n\nWell done! Solved!")
                 else:
                     st.error("Failed to factor. The number might be prime, or it's too large for a quick script.")
             else:
