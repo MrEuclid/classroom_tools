@@ -46,8 +46,7 @@ elif category == "Maths Functions":
     # Create a 2-column layout: Left (Tool), Right (Colab Export Panel)
     left_col, right_col = st.columns([1.5, 1])
 
-with right_col:
-        # --- COLAB EXPORT PANEL (MAIN WINDOW) ---
+    with right_col:
         st.markdown("### 📋 Colab Export Panel")
         st.markdown("[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/MrEuclid/classroom_tools/)")
         
@@ -61,7 +60,6 @@ with right_col:
             """
         )
         
-        # Interactive inputs acting as the new scratchpad
         col1, col2 = st.columns(2)
         with col1:
             colab_p = st.text_input("p (Prime 1):", "")
@@ -70,10 +68,8 @@ with right_col:
             colab_q = st.text_input("q (Prime 2):", "")
             colab_c = st.text_input("Ciphertext (c):", "")
         
-        # Auto-calculate n for the Colab payload if p and q are valid numbers
         n_val = str(int(colab_p) * int(colab_q)) if (colab_p.isdigit() and colab_q.isdigit()) else "None"
             
-        # Construct the live-updating Python script safely
         colab_payload = (
             f"p = {colab_p if colab_p else 'None'}\n"
             f"q = {colab_q if colab_q else 'None'}\n"
@@ -81,9 +77,8 @@ with right_col:
             f"e = {colab_e if colab_e else 'None'}\n"
             f"ciphertext = {colab_c if colab_c else 'None'}\n"
         )
-        
-        # Render the code block
         st.code(colab_payload, language="python")
+
     with left_col:
         if tool == "Text-to-Number Encoder":
             st.header("Text Encoder")
