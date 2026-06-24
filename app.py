@@ -46,6 +46,8 @@ elif category == "Maths Functions":
 
     # --- COLAB EXPORT PANEL (SIDEBAR) ---
     st.sidebar.markdown("---")
+    # Invisible spacer to force the sidebar to stretch down the screen
+    st.sidebar.markdown("<br><br><br><br><br><br><br><br><br><br>", unsafe_allow_html=True)
     st.sidebar.subheader("📋 Colab Export Panel")
     
     # Your specific GitHub Colab Notebook Link
