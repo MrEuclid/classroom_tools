@@ -47,6 +47,10 @@ elif category == "Maths Functions":
     # --- COLAB EXPORT PANEL (SIDEBAR) ---
     st.sidebar.markdown("---")
     st.sidebar.subheader("📋 Colab Export Panel")
+    
+    # Add the "Open in Colab" Badge
+    st.sidebar.markdown("[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/)")
+    
     st.sidebar.write("Paste your generated values here to auto-build your Colab script.")
     
     # Interactive inputs acting as the new scratchpad
@@ -60,18 +64,19 @@ elif category == "Maths Functions":
     if colab_p.isdigit() and colab_q.isdigit():
         n_val = str(int(colab_p) * int(colab_q))
         
-    # Construct the live-updating multi-line Python script snippet
-    colab_payload = f"""# Pasted from Streamlit RSA Tools
-p = {colab_p if colab_p else 'None'}
-q = {colab_q if colab_q else 'None'}
-n = {n_val}
-e = {colab_e if colab_e else 'None'}
-ciphertext = {colab_c if colab_c else 'None'}
+    # Construct the live-updating Python script safely without triple quotes!
+    colab_payload = (
+        "# Pasted from Streamlit RSA Tools\n"
+        f"p = {colab_p if colab_p else 'None'}\n"
+        f"q = {colab_q if colab_q else 'None'}\n"
+        f"n = {n_val}\n"
+        f"e = {colab_e if colab_e else 'None'}\n"
+        f"ciphertext = {colab_c if colab_c else 'None'}\n\n"
+        "print('✅ Variables successfully loaded into Colab! Solved!')\n"
+        "if n is not None:\n"
+        "    print(f'Modulus n bits: {n.bit_length()}')\n"
+    )
 
-print("✅ Variables successfully loaded into Colab! Solved!")
-if n is not None:
-    print(f"Modulus n bits: {{n.bit_length()}}")
-"""
     # Render the code block
     st.sidebar.code(colab_payload, language="python")
     st.sidebar.markdown("---")
