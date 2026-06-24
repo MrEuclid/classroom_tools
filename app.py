@@ -50,8 +50,15 @@ elif category == "Maths Functions":
         st.markdown("### 📋 Colab Export Panel")
         st.markdown("[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/MrEuclid/classroom_tools/)")
         
-        st.markdown("**Instructions:** Copy your variables below, click the badge, and paste into Colab.")
-        
+st.markdown(
+            """
+            **How to use this:**
+            1. Enter your variables below.
+            2. Hover over the dark code block and click the **Copy icon** (top right corner).
+            3. **Only after copying**, click the **Open in Colab** badge below.
+            4. Paste the code into your first Colab cell!
+            """
+        )        
         col1, col2 = st.columns(2)
         with col1:
             colab_p = st.text_input("p (Prime 1):", "")
