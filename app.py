@@ -47,8 +47,6 @@ elif category == "Maths Functions":
     # --- COLAB EXPORT PANEL (SIDEBAR) ---
     st.sidebar.markdown("---")
     st.sidebar.subheader("📋 Colab Export Panel")
-    # This creates a clickable badge that opens the notebook in a new tab
-st.sidebar.markdown("[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/YourUsername/classroom_tools/blob/main/your_notebook_name.ipynb)")
     st.sidebar.write("Paste your generated values here to auto-build your Colab script.")
     
     # Interactive inputs acting as the new scratchpad
