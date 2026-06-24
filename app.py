@@ -8,12 +8,29 @@ import utilities.RSA.decoding as decoding
 st.set_page_config(page_title="Classroom Toolkit", layout="wide")
 
 # --- CSS FIX FOR CHROMEBOOKS ---
+# --- UPGRADED CSS FIX FOR CHROMEBOOKS ---
 st.markdown(
     """
     <style>
-    /* Force the sidebar to span the full viewport height */
+    /* 1. Force the master HTML/Body to take full physical screen height */
+    html, body {
+        height: 100% !important;
+        margin: 0 !important;
+    }
+    
+    /* 2. Force the sidebar shell to stretch perfectly to the bottom */
     [data-testid="stSidebar"] {
+        height: 100vh !important;
         min-height: 100vh !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    
+    /* 3. Ensure the internal content area expands and scrolls properly */
+    [data-testid="stSidebarUserContent"] {
+        flex-grow: 1 !important;
+        height: 100% !important;
+        overflow-y: auto !important;
     }
     </style>
     """,
