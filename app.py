@@ -7,36 +7,6 @@ import utilities.RSA.decoding as decoding
 
 st.set_page_config(page_title="Classroom Toolkit", layout="wide")
 
-# --- CSS FIX FOR CHROMEBOOKS ---
-# --- UPGRADED CSS FIX FOR CHROMEBOOKS ---
-st.markdown(
-    """
-    <style>
-    /* 1. Force the master HTML/Body to take full physical screen height */
-    html, body {
-        height: 100% !important;
-        margin: 0 !important;
-    }
-    
-    /* 2. Force the sidebar shell to stretch perfectly to the bottom */
-    [data-testid="stSidebar"] {
-        height: 100vh !important;
-        min-height: 100vh !important;
-        display: flex !important;
-        flex-direction: column !important;
-    }
-    
-    /* 3. Ensure the internal content area expands and scrolls properly */
-    [data-testid="stSidebarUserContent"] {
-        flex-grow: 1 !important;
-        height: 100% !important;
-        overflow-y: auto !important;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
 # --- Sidebar Main Menu ---
 st.sidebar.title("🛠️ Toolkit")
 
@@ -81,7 +51,15 @@ elif category == "Maths Functions":
     # Your specific GitHub Colab Notebook Link
     st.sidebar.markdown("[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/MrEuclid/classroom_tools/blob/main/Copy_of_rsaCalculation.ipynb)")
     
-    st.sidebar.write("Paste your generated values here to auto-build your Colab script.")
+    st.sidebar.markdown(
+        """
+        **How to use this:**
+        1. Enter your variables below.
+        2. Hover over the dark code block and click the **Copy** icon in the top right.
+        3. Click the **Open in Colab** badge above.
+        4. Paste the code into your first Colab cell!
+        """
+    )
     
     # Interactive inputs acting as the new scratchpad
     colab_p = st.sidebar.text_input("p (Prime 1):", "")
