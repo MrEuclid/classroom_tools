@@ -6,6 +6,18 @@ import utilities.RSA.prime_tools as prime_tools
 import utilities.RSA.decoding as decoding
 
 st.set_page_config(page_title="Classroom Toolkit", layout="wide")
+# --- CSS FIX FOR CHROMEBOOKS ---
+st.markdown(
+    """
+    <style>
+    /* Force the sidebar to span the full viewport height */
+    [data-testid="stSidebar"] {
+        min-height: 100vh !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 # --- Sidebar Main Menu ---
 st.sidebar.title("🛠️ Toolkit")
