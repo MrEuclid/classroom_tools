@@ -6,6 +6,7 @@ import utilities.RSA.prime_tools as prime_tools
 import utilities.RSA.decoding as decoding
 
 st.set_page_config(page_title="Classroom Toolkit", layout="wide")
+
 # --- CSS FIX FOR CHROMEBOOKS ---
 st.markdown(
     """
@@ -60,8 +61,8 @@ elif category == "Maths Functions":
     st.sidebar.markdown("---")
     st.sidebar.subheader("📋 Colab Export Panel")
     
-    # Add the "Open in Colab" Badge
-    st.sidebar.markdown("[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/)")
+    # Your specific GitHub Colab Notebook Link
+    st.sidebar.markdown("[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/MrEuclid/classroom_tools/blob/main/Copy_of_rsaCalculation.ipynb)")
     
     st.sidebar.write("Paste your generated values here to auto-build your Colab script.")
     
@@ -76,7 +77,7 @@ elif category == "Maths Functions":
     if colab_p.isdigit() and colab_q.isdigit():
         n_val = str(int(colab_p) * int(colab_q))
         
-    # Construct the live-updating Python script safely without triple quotes!
+    # Construct the live-updating Python script safely without triple quotes
     colab_payload = (
         "# Pasted from Streamlit RSA Tools\n"
         f"p = {colab_p if colab_p else 'None'}\n"
