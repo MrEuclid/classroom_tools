@@ -66,7 +66,7 @@ elif category == "Maths Functions":
             colab_e = st.text_input("e (Public Key):", "65537")
         with col2:
             colab_q = st.text_input("q (Prime 2):", "")
-            colab_c = st.text_input("Ciphertext (c):", "")
+            colab_c = st.text_input("Plaintext ():", "")
         
         n_val = str(int(colab_p) * int(colab_q)) if (colab_p.isdigit() and colab_q.isdigit()) else "None"
             
