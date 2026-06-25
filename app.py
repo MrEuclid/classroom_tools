@@ -66,7 +66,7 @@ elif category == "Maths Functions":
             colab_e = st.text_input("e (Public Key):", "65537")
         with col2:
             colab_q = st.text_input("q (Prime 2):", "")
-            colab_c = st.text_input("Plaintext ():", "")
+            colab_c = st.text_input("Plaintext (m):", "")
         
         n_val = str(int(colab_p) * int(colab_q)) if (colab_p.isdigit() and colab_q.isdigit()) else "None"
             
@@ -75,7 +75,7 @@ elif category == "Maths Functions":
             f"q = {colab_q if colab_q else 'None'}\n"
             f"n = {n_val}\n"
             f"e = {colab_e if colab_e else 'None'}\n"
-            f"ciphertext = {colab_c if colab_c else 'None'}\n"
+            f"m = {colab_c if colab_c else 'None'}\n"
         )
         st.code(colab_payload, language="python")
 
