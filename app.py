@@ -103,11 +103,20 @@ elif category == "Maths Functions":
             
         elif tool == "Private Key Generator":
             st.header("Private Key ($d$) Calculator")
+            
+            # Keep 'e' as a number input since it is usually just 65537
             e_val = st.number_input("e", value=65537)
-            phi_val = st.number_input("phi(n)", value=100)
+            
+            # Change phi(n) to a text input to bypass JavaScript's 15-digit limit
+            phi_input = st.text_input("phi(n)", value="100")
+            
             if st.button("Calculate", type="primary"):
-                st.success(f"**Private Key (d):** {rsa.calculate_private_key(e_val, phi_val)}")
-
+                if phi_input.strip().isdigit():
+                    phi_val = int(phi_input.strip())
+                    result = rsa.calculate_private_key(e_val, phi_val)
+                    st.success(f"**Private Key (d):** {result}\n\nSolved!")
+                else:
+                    st.error("Please enter a valid positive number for phi(n).")
         elif tool == "RSA Modular Exponentiation":
             st.header("Modular Exponentiation")
             b = st.number_input("Base", value=7)
