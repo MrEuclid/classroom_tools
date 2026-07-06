@@ -38,6 +38,7 @@ elif category == "Maths Functions":
         "Text-to-Number Encoder", 
         "Number-to-Text Decoder",
         "Prime Number Finder",
+        "Primitive Root Finder",
         "Private Key Generator",
         "RSA Modular Exponentiation",
         "RSA Modulus Cracker"
@@ -101,6 +102,24 @@ elif category == "Maths Functions":
             if st.button("Generate", type="primary"):
                 st.success(f"**Prime:** {prime_tools.generate_random_prime(digits)}")
             
+        elif tool == "Primitive Root Finder":
+            st.header("Primitive Root Finder")
+            
+            p_input = st.text_input("Enter a prime number (p):", "11")
+            
+            if st.button("Find Root", type="primary"):
+                if p_input.strip().isdigit():
+                    p_val = int(p_input.strip())
+                    
+                    with st.spinner("Calculating..."):
+                        root = prime_tools.find_first_primitive_root(p_val)
+                        
+                    if root:
+                        st.success(f"**First Primitive Root:** {root}")
+                    else:
+                        st.error(f"**{p_val}** does not appear to be a valid prime number or has no primitive root.")
+                else:
+                    st.error("Please enter a valid positive integer.")
         elif tool == "Private Key Generator":
             st.header("Private Key ($d$) Calculator")
             

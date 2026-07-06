@@ -92,3 +92,48 @@ def crack_rsa_modulus(n):
             
     # If it fails after 5 random attempts, it is highly likely prime
     return None, None
+
+def get_prime_factors(n):
+    """Returns a set of unique prime factors for a given number n."""
+    factors = set()
+    # Check for divisibility by 2
+    while n % 2 == 0:
+        factors.add(2)
+        n //= 2
+    
+    # Check for odd prime factors up to the square root of n
+    i = 3
+    while i * i <= n:
+        while n % i == 0:
+            factors.add(i)
+            n //= i
+        i += 2
+        
+    # If n is still greater than 2, it is a prime factor itself
+    if n > 2:
+        factors.add(n)
+        
+    return factors
+
+def find_first_primitive_root(p):
+    """Finds the first primitive root modulo a prime p."""
+    if p <= 2:
+        return 1 if p == 2 else None
+        
+    phi = p - 1
+    factors = get_prime_factors(phi)
+    
+    # Check candidates from 2 to p-1
+    for g in range(2, p):
+        is_primitive = True
+        # For a number to be a primitive root, g^(phi/q) mod p must NOT equal 1
+        # for any prime factor q of phi.
+        for q in factors:
+            if pow(g, phi // q, p) == 1:
+                is_primitive = False
+                break
+                
+        if is_primitive:
+            return g
+            
+    return None
