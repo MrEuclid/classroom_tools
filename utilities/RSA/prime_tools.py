@@ -117,8 +117,12 @@ def get_prime_factors(n):
 
 def find_first_primitive_root(p):
     """Finds the first primitive root modulo a prime p."""
-    if p <= 2:
-        return 1 if p == 2 else None
+    # NEW: Reject non-primes immediately
+    if not is_prime(p): 
+        return None
+        
+    if p == 2:
+        return 1
         
     phi = p - 1
     factors = get_prime_factors(phi)
@@ -126,8 +130,6 @@ def find_first_primitive_root(p):
     # Check candidates from 2 to p-1
     for g in range(2, p):
         is_primitive = True
-        # For a number to be a primitive root, g^(phi/q) mod p must NOT equal 1
-        # for any prime factor q of phi.
         for q in factors:
             if pow(g, phi // q, p) == 1:
                 is_primitive = False
