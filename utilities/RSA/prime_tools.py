@@ -115,19 +115,19 @@ def get_prime_factors(n):
         
     return factors
 
-def find_first_primitive_root(p):
-    """Finds the first primitive root modulo a prime p."""
-    # NEW: Reject non-primes immediately
+def find_primitive_roots(p, max_results=10):
+    """Finds up to 'max_results' primitive roots modulo a prime p."""
     if not is_prime(p): 
-        return None
+        return []
         
     if p == 2:
-        return 1
+        return [1]
         
     phi = p - 1
     factors = get_prime_factors(phi)
     
-    # Check candidates from 2 to p-1
+    roots = []
+    
     for g in range(2, p):
         is_primitive = True
         for q in factors:
@@ -136,6 +136,9 @@ def find_first_primitive_root(p):
                 break
                 
         if is_primitive:
-            return g
-            
-    return None
+            roots.append(g)
+            # Stop once we have enough examples for the students
+            if len(roots) >= max_results:
+                break
+                
+    return roots

@@ -112,12 +112,16 @@ elif category == "Maths Functions":
                     p_val = int(p_input.strip())
                     
                     with st.spinner("Calculating..."):
-                        root = prime_tools.find_first_primitive_root(p_val)
+                        roots = prime_tools.find_primitive_roots(p_val, max_results=5)
                         
-                    if root:
-                        st.success(f"**First Primitive Root:** {root}")
+                    if roots:
+                        # Convert the list of numbers into a comma-separated string
+                        roots_str = ", ".join(map(str, roots))
+                        st.success(f"**First few Primitive Roots:** {roots_str}")
                     else:
-                        st.error(f"**{p_val}** does not appear to be a valid prime number or has no primitive root.")
+                        st.error(f"**{p_val}** does not appear to be a valid prime.")
+                        
+                   
                 else:
                     st.error("Please enter a valid positive integer.")
         elif tool == "Private Key Generator":
